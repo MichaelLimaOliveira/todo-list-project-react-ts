@@ -1,14 +1,32 @@
 import styles from './App.module.css'
 import { Header } from './components/Header'
-import { TaskInput } from './components/TaskInput'
+import { TaskBody } from './components/TaskBody';
+import { TaskForm } from './components/TaskForm';
+import { useState } from 'react';
+
+export interface Tasks {
+  content: string;
+}
 
 export function App() {
+  const [tasks, setTask] = useState([
+    'Tarefa Inicial ainda nao sei tirar vc espera ae'
+  ]);
+
+  function createdTask(taskText: string) {
+    setTask([...tasks, taskText]);
+  }
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <Header />
-      <TaskInput />
-    </div>
-  )
+      <TaskForm
+        onCreatedTask={createdTask} 
+      />
+      <TaskBody
+        listTask={tasks}
+      />
+    </>
+  );
 }
 
