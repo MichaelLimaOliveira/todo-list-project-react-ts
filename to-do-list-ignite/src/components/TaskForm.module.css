@@ -39,7 +39,7 @@
     padding: 0 1rem;
     background: var(--blue-dark);
     color: var(--gray-100);
-    border: none;
+    border: 1px solid var(--gray-700);
     border-radius: 0.5rem;
     display: flex;
     align-items: center;
@@ -50,6 +50,11 @@
     border-radius: 0.5rem;
 }
 
-.newTaskForm button:hover {
+.newTaskForm button[type=submit]:not(:disabled):hover {
     background: var(--blue);
+}
+
+.newTaskForm  button[type=submit]:disabled {
+    background: var(--gray-400);
+    cursor: not-allowed;
 }

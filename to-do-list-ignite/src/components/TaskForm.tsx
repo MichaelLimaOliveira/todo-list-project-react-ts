@@ -6,12 +6,16 @@ interface taskProps {
     onCreatedTask: (Task: string) => void;
 }
 
-export function TaskForm({onCreatedTask}: taskProps) {
-    const [newTaskText, setNewTaskText] = useState('');
+export function TaskForm({ onCreatedTask }: taskProps) {
+    const [newTaskText, setNewTaskText] = useState<string>('');
+    const isNewTaskOnlyWhiteSpaces: boolean = (/^[ \t]+$/.test(newTaskText));
+    const isNewTaskEmpty = newTaskText.length === 0 || isNewTaskOnlyWhiteSpaces;
 
     function handleNewTaskText(event: FormEvent) {
         event.preventDefault();
+        
         onCreatedTask(newTaskText);
+        setNewTaskText('')
     }
 
     function onChangeTextArea(event: ChangeEvent<HTMLInputElement>) {
@@ -19,11 +23,16 @@ export function TaskForm({onCreatedTask}: taskProps) {
     }
 
     return (
-        <form className={styles.newTaskForm}>
-            <input placeholder='Adicionar uma nova tarefa' onChange={onChangeTextArea} />
-            <button onClick={handleNewTaskText}>
+        <form className={styles.newTaskForm} onSubmit={handleNewTaskText}>
+            <input 
+                placeholder='Adicionar uma nova tarefa' 
+                value={newTaskText} 
+                onChange={onChangeTextArea} 
+            />
+
+            <button type='submit'  disabled={isNewTaskEmpty}>
                 Criar
-                <img src={plus} alt="" />
+                <img src={ plus } alt="Plus Icon" />
             </button>
         </form>
     );

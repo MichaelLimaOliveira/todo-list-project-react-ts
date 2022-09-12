@@ -1,20 +1,50 @@
-import styles from './App.module.css'
 import { Header } from './components/Header'
 import { TaskBody } from './components/TaskBody';
 import { TaskForm } from './components/TaskForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 
-export interface Tasks {
+export interface ITask {
+  id: string;
   content: string;
+  isCompleted: boolean;
 }
 
 export function App() {
-  const [tasks, setTask] = useState([
-    'Tarefa Inicial ainda nao sei tirar vc espera ae'
-  ]);
+  const [tasks, setTask] = useState<ITask[]>(
+    JSON.parse(localStorage.getItem('tasks') || '') || []
+  );
 
   function createdTask(taskText: string) {
-    setTask([...tasks, taskText]);
+    const newTasks = {
+        id: v4(),
+        content: taskText,
+        isCompleted: false,
+    };
+
+    setTask([...tasks, newTasks]);
+  }
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, [tasks]);
+
+  function completeTask(id: string) {
+    const tempTasks = [...tasks];
+    const completedTask = tempTasks.find(task => task.id === id);
+
+    if(!completedTask) return;
+
+    completedTask.isCompleted = !completedTask.isCompleted;
+    setTask(tempTasks);
+  }
+
+  
+
+  function deleteTaskFromList(idTask: string) {
+    const taskListWithoutDeletedOne: ITask[] = tasks.filter((task) => task.id !== idTask);
+
+    setTask(taskListWithoutDeletedOne);
   }
 
   return (
@@ -24,7 +54,9 @@ export function App() {
         onCreatedTask={createdTask} 
       />
       <TaskBody
-        listTask={tasks}
+        tasks={tasks}
+        sendTaskToDelete={deleteTaskFromList}
+        onCompletedTask={completeTask}
       />
     </>
   );

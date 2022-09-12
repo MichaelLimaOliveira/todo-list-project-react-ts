@@ -1,34 +1,55 @@
-import { Tasks } from '../App';
+import { ITask } from '../App';
 import { Task } from './Task';
 import styles from './TaskBody.module.css';
-import { useState } from 'react';
-interface listTaskProps {
-    listTask: string[]
+import  Clipboard  from '../assets/Clipboard.svg';
+interface Props {
+    tasks: ITask[];
+    sendTaskToDelete: (id: string) => void;
+    onCompletedTask: (id: string) => void;
 }
 
-export function TaskBody({ listTask }: listTaskProps) {
+export function TaskBody({ tasks, sendTaskToDelete, onCompletedTask }: Props) {
+    const taskOrdered = tasks.sort((task)=> task.isCompleted ? 1 : -1);
+    const taskCount = tasks.length;
+    const completedTasks = tasks.filter(task => task.isCompleted);
+
     return (
-        <section className={styles.tasks}>
-            <header className={styles.header}>
+        <section className={ styles.tasks }>
+            <header className={ styles.header }>
                 <div>
                     <p>Tarefas Criadas</p>
-                    <span>10</span>
+                    <span>{ taskCount }</span>
                 </div>
 
                 <div>
-                    <p className={styles.textPurple}>Concluídas</p>
-                    <span>2 de 5</span>
+                    <p className={ styles.textPurple }>Concluídas</p>
+                    <span>{ completedTasks.length } de { taskCount }</span>
                 </div>
             </header>
             <div className={styles.list}>
-                {listTask.map((task) => {
+                {taskOrdered.map((task) => {
                     return(
                         <Task 
-                            key={task}
-                            content={task}
+                            key={task.id}
+                            task={task}
+                            onDeleteTask={sendTaskToDelete}
+                            onCompletedTask={onCompletedTask}
                         />
                     )
                 })}
+
+
+                {taskOrdered.length <= 0 && (
+                    <div className={ styles.empytTasks }>
+                        <div className={ styles.clipboard }>
+                            <img src={Clipboard} alt="" />
+                        </div>
+                        <div className={ styles.clipboardText }>
+                            <div><p>Você ainda não tem tarefas cadastradas</p></div>
+                            <div><p>Crie tarefas e organize seus itens a fazer</p></div>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     )

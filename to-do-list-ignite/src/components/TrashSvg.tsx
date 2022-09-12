@@ -1,4 +1,4 @@
-export const SvgComponent = (props: any) => (
+export const TrashSvg = (props: any) => (
   <svg
     {...props}
     width={24}
