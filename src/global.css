@@ -36,17 +36,14 @@ button {
   cursor: pointer;
 }
 
-/* width */
 ::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: transparent;
 }
  
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--gray-400); 
   border-radius: 10px;
@@ -57,7 +54,6 @@ button {
   border-radius: 10px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gray-300) 
 }

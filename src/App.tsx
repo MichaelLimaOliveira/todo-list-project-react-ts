@@ -1,3 +1,4 @@
+import styles from './App.module.css'
 import { Header } from './components/Header'
 import { TaskBody } from './components/TaskBody';
 import { TaskForm } from './components/TaskForm';
@@ -11,9 +12,7 @@ export interface ITask {
 }
 
 export function App() {
-  const [tasks, setTask] = useState<ITask[]>(
-    JSON.parse(localStorage.getItem('tasks') || '') || []
-  );
+  const [tasks, setTask] = useState<ITask[]>([]);
 
   function createdTask(taskText: string) {
     const newTasks = {
@@ -24,10 +23,10 @@ export function App() {
 
     setTask([...tasks, newTasks]);
   }
-
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    }, [tasks]);
+  // JSON.parse(localStorage.getItem('tasks') || '') || []
+  // useEffect(() => {
+  //   localStorage.setItem('tasks', JSON.stringify(tasks));
+  //   }, [tasks]);
 
   function completeTask(id: string) {
     const tempTasks = [...tasks];
