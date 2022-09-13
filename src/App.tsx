@@ -12,7 +12,9 @@ export interface ITask {
 }
 
 export function App() {
-  const [tasks, setTask] = useState<ITask[]>([]);
+  const [tasks, setTask] = useState<ITask[]>(
+    JSON.parse(localStorage.getItem('tasks') || '[]') || []
+    );
 
   function createdTask(taskText: string) {
     const newTasks = {
@@ -23,10 +25,10 @@ export function App() {
 
     setTask([...tasks, newTasks]);
   }
-  // JSON.parse(localStorage.getItem('tasks') || '') || []
-  // useEffect(() => {
-  //   localStorage.setItem('tasks', JSON.stringify(tasks));
-  //   }, [tasks]);
+  
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, [tasks]);
 
   function completeTask(id: string) {
     const tempTasks = [...tasks];

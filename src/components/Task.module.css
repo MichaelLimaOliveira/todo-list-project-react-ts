@@ -28,7 +28,7 @@
 
 .task p {
     word-wrap: break-word;
-    max-width: 35rem;
+    max-width: 80%;
     font-weight: 400;
     font-size: 0.875rem;
     line-height: 1.18rem;
@@ -123,4 +123,11 @@
 .vectorImg {
     height: 0.293rem;
     width: 0.457rem;
+}
+
+@media(max-width:400px)
+{
+    .task p {
+        max-width: 70%;
+    }
 }

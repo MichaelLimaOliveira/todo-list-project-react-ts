@@ -9,7 +9,10 @@ interface Props {
 }
 
 export function TaskBody({ tasks, sendTaskToDelete, onCompletedTask }: Props) {
-    const taskOrdered = tasks.sort((task)=> task.isCompleted ? 1 : -1);
+    const taskOrdered = tasks.sort((task, nextTask)=> { 
+        if(task.isCompleted == nextTask.isCompleted) return 0;
+        return task.isCompleted ? 1 : -1;
+    });
     const taskCount = tasks.length;
     const completedTasks = tasks.filter(task => task.isCompleted);
 
