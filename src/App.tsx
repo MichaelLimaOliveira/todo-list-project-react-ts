@@ -31,12 +31,12 @@ export function App() {
     }, [tasks]);
 
   function completeTask(id: string) {
-    const tempTasks = [...tasks];
-    const completedTask = tempTasks.find(task => task.id === id);
-
-    if(!completedTask) return;
-
-    completedTask.isCompleted = !completedTask.isCompleted;
+    const tempTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return {...task, isCompleted: !task.isCompleted};
+      } 
+      return task    
+    });
     setTask(tempTasks);
   }
 
